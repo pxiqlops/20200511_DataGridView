@@ -1,4 +1,6 @@
-﻿Public Class Form1
+﻿Imports Microsoft.Office.Interop
+Imports System.Runtime.InteropServices
+Public Class Form1
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         'DataGridView を初期値に設定
         DGVClear(DataGridView1)    '初期化のSub プロシージャを Call
@@ -207,7 +209,114 @@
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         'DataGridView に表示中のデータを CSV 形式で保存
-        CsvFileSave("C:\dgvdat\saveTest1.csv")
+        Dim saveFileName As String
+        Dim objExcel As Excel.Application = New Excel.Application
+        Dim objWorkBook As Excel.Workbook = objExcel.Workbooks.Add
+        Dim objSheet As Excel.Worksheet = Nothing
+        saveFileName = objExcel.GetSaveAsFilename(
+            InitialFilename:="C:\dgvdat\savecsv",
+            FileFilter:="CSVファイル,*.csv")
+
+        CsvFileSave(saveFileName)
+    End Sub
+
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        'DataGridView に表示中のデータを TXT 形式で保存
+
+        Dim saveFileName As String
+        Dim objExcel As Excel.Application = New Excel.Application
+        Dim objWorkBook As Excel.Workbook = objExcel.Workbooks.Add
+        Dim objSheet As Excel.Worksheet = Nothing
+        saveFileName = objExcel.GetSaveAsFilename(
+            InitialFilename:="C:\dgvdat\savetxt",
+            FileFilter:="txtファイル,*.txt")
+
+        CsvFileSave(saveFileName)
+    End Sub
+
+
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        'DataGridView に表示中のデータを CSV 形式で保存
+        'XlsFileSave("C:\dgvdat\saveTest1.xls")
+
+        ' EXCEL関連オブジェクトの定義
+        Dim objExcel As Excel.Application = New Excel.Application
+        Dim objWorkBook As Excel.Workbook = objExcel.Workbooks.Add
+        Dim objSheet As Excel.Worksheet = Nothing
+
+        '保存ディレクトリとファイル名を設定
+        Dim saveFileName As String
+
+        saveFileName = objExcel.GetSaveAsFilename(
+            InitialFilename:="C:\dgvdat\saveexcel",
+            FileFilter:="Excel2003以前,*.xls,Excelファイル,*.xlsx",
+            FilterIndex:=2)
+
+        '保存先ディレクトリの設定が有効の場合はブックを保存
+        If saveFileName = "False" Then
+            'objWorkBook.SaveAs(Filename:=saveFileName)
+            Exit Sub
+        End If
+
+        '保存先ディレクトリの設定が有効の場合はブックを保存
+        objWorkBook.SaveAs(Filename:=saveFileName)
+
+        'シートの最大表示列項目数
+        Dim columnMaxNum As Integer = DataGridView1.Columns.Count - 1
+        'シートの最大表示行項目数
+        Dim rowMaxNum As Integer = DataGridView1.Rows.Count - 1
+
+        '項目名格納用リストを宣言
+        Dim columnList As New List(Of String)
+        '項目名を取得
+        For i As Integer = 0 To (columnMaxNum)
+            columnList.Add(DataGridView1.Columns(i).HeaderCell.Value)
+        Next
+
+        'セルのデータ取得用二次元配列を宣言
+        Dim v As String(,) = New String(rowMaxNum, columnMaxNum) {}
+
+        For row As Integer = 0 To rowMaxNum
+            For col As Integer = 0 To columnMaxNum
+                If DataGridView1.Rows(row).Cells(col).Value Is Nothing = False Then
+                    ' セルに値が入っている場合、二次元配列に格納
+                    v(row, col) = DataGridView1.Rows(row).Cells(col).Value.ToString()
+                End If
+            Next
+        Next
+
+        ' EXCELに項目名を転送
+        For i As Integer = 1 To DataGridView1.Columns.Count
+            ' シートの一行目に項目を挿入
+            objWorkBook.Sheets(1).Cells(1, i) = columnList(i - 1)
+
+            ' 罫線を設定
+            objWorkBook.Sheets(1).Cells(1, i).Borders.LineStyle = True
+            ' 項目の表示行に背景色を設定
+            objWorkBook.Sheets(1).Cells(1, i).Interior.Color = RGB(140, 140, 140)
+            ' 文字のフォントを設定
+            objWorkBook.Sheets(1).Cells(1, i).Font.Color = RGB(255, 255, 255)
+            objWorkBook.Sheets(1).Cells(1, i).Font.Bold = True
+        Next
+
+        ' EXCELにデータを範囲指定で転送
+        Dim data As String = "A2:" & Chr(Asc("A") + columnMaxNum) & DataGridView1.Rows.Count + 1
+        objWorkBook.Sheets(1).Range(data) = v
+
+        ' データの表示範囲に罫線を設定
+        objWorkBook.Sheets(1).Range(data).Borders.LineStyle = True
+
+        ' エクセル表示
+        objExcel.Visible = True
+
+        ' EXCEL解放
+        Marshal.ReleaseComObject(objWorkBook)
+        Marshal.ReleaseComObject(objExcel)
+        objWorkBook = Nothing
+        objExcel = Nothing
+
+        MessageBox.Show("現在表示中のデータを " & saveFileName & " に保存しました。")
     End Sub
 
     Private Sub CsvFileSave(ByVal SaveFileName As String)
@@ -258,4 +367,6 @@
         End Using
         MessageBox.Show("現在表示中のデータを " & dbFileName & " に保存しました。")
     End Sub
+
+
 End Class
