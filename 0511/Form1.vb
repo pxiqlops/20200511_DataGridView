@@ -45,6 +45,31 @@ Public Class Form1
             Dim FolderPath As String = "C:\dgvdat"       ' Application.StartupPath
             'CSV ファイル名 (フルパスで書かないで下さい)
             Dim dbFileName As String = "dgvtest1.csv"
+
+            'OpenFileDialogクラスのインスタンスを作成
+            Dim ofd As New OpenFileDialog()
+
+            'はじめのファイル名を指定する
+            ofd.FileName = dbFileName
+            'はじめに表示されるフォルダを指定する
+            ofd.InitialDirectory = FolderPath
+            '[ファイルの種類]に表示される選択肢を指定する
+            '指定しないとすべてのファイルが表示される
+            ofd.Filter = "csvファイル(*.csv)|*.csv"
+            'タイトルを設定する
+            ofd.Title = "開くファイルを選択してください"
+            'ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+            ofd.RestoreDirectory = True
+
+            'ダイアログを表示する
+            If ofd.ShowDialog() = DialogResult.OK Then
+                'OKボタンがクリックされたとき、選択されたファイル名を表示する
+                dbFileName = ofd.SafeFileName
+            Else
+                MessageBox.Show("ファイル表示をキャンセルしました。")
+                Exit Sub
+            End If
+
             cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data source=" & FolderPath &
                     ";Extended Properties=""Text;HDR=YES;IMEX=1;FMT=Delimited"""
             Using da As System.Data.OleDb.OleDbDataAdapter =
@@ -66,11 +91,38 @@ Public Class Form1
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         'Excel ファイル(xls)を ADO.NET を使って DataGridView に読み込み表示
         DGVClear(DataGridView1)                             '初期化のSub プロシージャを Call
+        Dim FolderPath As String = "C:\dgvdat"       ' Application.StartupPath
+        'Excelファイルのフルパスを設定
+        Dim dbFileName As String = "dgvtest2.xls"
+
         Using cn As New System.Data.OleDb.OleDbConnection
             Using cm As New System.Data.OleDb.OleDbCommand
                 Using da As New System.Data.OleDb.OleDbDataAdapter
-                    'Excelファイルのフルパスを設定
-                    Dim dbFileName As String = "C:\dgvdat\dgvtest2.xls"
+
+                    'OpenFileDialogクラスのインスタンスを作成
+                    Dim ofd As New OpenFileDialog()
+
+                    'はじめのファイル名を指定する
+                    ofd.FileName = dbFileName
+                    'はじめに表示されるフォルダを指定する
+                    ofd.InitialDirectory = FolderPath
+                    '[ファイルの種類]に表示される選択肢を指定する
+                    '指定しないとすべてのファイルが表示される
+                    ofd.Filter = "xlsファイル(*.xls)|*.xls"
+                    'タイトルを設定する
+                    ofd.Title = "開くファイルを選択してください"
+                    'ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+                    ofd.RestoreDirectory = True
+
+                    'ダイアログを表示する
+                    If ofd.ShowDialog() = DialogResult.OK Then
+                        'OKボタンがクリックされたとき、選択されたファイル名を表示する
+                        dbFileName = ofd.FileName
+                    Else
+                        MessageBox.Show("ファイル表示をキャンセルしました。")
+                        Exit Sub
+                    End If
+
                     'Excelファイルのシート名を設定
                     Dim SheetName As String = "Sheet1"
                     'データベースに接続するための情報を設定する
@@ -102,16 +154,45 @@ Public Class Form1
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         'Excel ファイル(xlsx)を ADO.NET を使って DataGridView に読み込み表示
         DGVClear(DataGridView1)                             '初期化のSub プロシージャを Call
+        Dim FolderPath As String = "C:\dgvdat"       ' Application.StartupPath
+        'Excelファイルのフルパスを設定
+        Dim dbFileName As String = "dgvtest3.xlsx"
+        ''Excelファイルのフルパスを設定
+        'Dim dbFileName As String = "C:\dgvdat\dgvtest3.xlsx"
+
         Using cn As New System.Data.OleDb.OleDbConnection
             Using cm As New System.Data.OleDb.OleDbCommand
                 Using da As New System.Data.OleDb.OleDbDataAdapter
-                    'Excelファイルのフルパスを設定
-                    Dim dbFileName As String = "C:\dgvdat\dgvtest3.xlsx"
+
+                    'OpenFileDialogクラスのインスタンスを作成
+                    Dim ofd As New OpenFileDialog()
+
+                    'はじめのファイル名を指定する
+                    ofd.FileName = dbFileName
+                    'はじめに表示されるフォルダを指定する
+                    ofd.InitialDirectory = FolderPath
+                    '[ファイルの種類]に表示される選択肢を指定する
+                    '指定しないとすべてのファイルが表示される
+                    ofd.Filter = "xlsxファイル(*.xlsx)|*.xlsx"
+                    'タイトルを設定する
+                    ofd.Title = "開くファイルを選択してください"
+                    'ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+                    ofd.RestoreDirectory = True
+
+                    'ダイアログを表示する
+                    If ofd.ShowDialog() = DialogResult.OK Then
+                        'OKボタンがクリックされたとき、選択されたファイル名を表示する
+                        dbFileName = ofd.FileName
+                    Else
+                        MessageBox.Show("ファイル表示をキャンセルしました。")
+                        Exit Sub
+                    End If
+
                     'Excelファイルのシート名を設定
                     Dim SheetName As String = "Sheet1"
                     'データベースに接続するための情報を設定する
                     cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data source=" &
-                dbFileName & ";Extended properties=""Excel 8.0;HDR=YES;IMEX=1"""
+                    dbFileName & ";Extended properties=""Excel 8.0;HDR=YES;IMEX=1"""
                     'コネクションの設定
                     cm.Connection = cn
                     'データソースで実行するSQL文の設定
@@ -138,12 +219,41 @@ Public Class Form1
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         'mdb ファイルを ADO.NET を使って DataGridView に読み込み表示
         DGVClear(DataGridView1)                             '初期化のSub プロシージャを Call
+        Dim FolderPath As String = "C:\dgvdat"       ' Application.StartupPath
+        'Excelファイルのフルパスを設定
+        Dim dbFileName As String = "dgvtest4.mdb"
+        'EXE と同じフォルダーにデータも入れておく
+        'Dim dbFileName As String = "C:\dgvdat\dgvtest4.mdb"
+
         Using cn As New System.Data.OleDb.OleDbConnection
             Using cm As New System.Data.OleDb.OleDbCommand
                 Using da As New System.Data.OleDb.OleDbDataAdapter
                     Dim ds As New DataSet
-                    'EXE と同じフォルダーにデータも入れておく
-                    Dim dbFileName As String = "C:\dgvdat\dgvtest4.mdb"
+
+                    'OpenFileDialogクラスのインスタンスを作成
+                    Dim ofd As New OpenFileDialog()
+
+                    'はじめのファイル名を指定する
+                    ofd.FileName = dbFileName
+                    'はじめに表示されるフォルダを指定する
+                    ofd.InitialDirectory = FolderPath
+                    '[ファイルの種類]に表示される選択肢を指定する
+                    '指定しないとすべてのファイルが表示される
+                    ofd.Filter = "mdbファイル(*.mdb)|*.mdb"
+                    'タイトルを設定する
+                    ofd.Title = "開くファイルを選択してください"
+                    'ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+                    ofd.RestoreDirectory = True
+
+                    'ダイアログを表示する
+                    If ofd.ShowDialog() = DialogResult.OK Then
+                        'OKボタンがクリックされたとき、選択されたファイル名を表示する
+                        dbFileName = ofd.FileName
+                    Else
+                        MessageBox.Show("ファイル表示をキャンセルしました。")
+                        Exit Sub
+                    End If
+
                     Dim TableName As String = "Table1"   '指定のテーブル名(上記ファイル内に存在する事)
                     '接続文字列については、WEB上で、[接続文字列]をキーに検索して見て下さい。
                     cn.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" &
@@ -173,12 +283,41 @@ Public Class Form1
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         'accdb ファイルを ADO.NET を使って DataGridView に読み込み表示
         DGVClear(DataGridView1)                             '初期化のSub プロシージャを Call
+        Dim FolderPath As String = "C:\dgvdat"       ' Application.StartupPath
+        'Excelファイルのフルパスを設定
+        Dim dbFileName As String = "dgvtest5.accdb"
+        'EXE と同じフォルダーにデータも入れておく
+        'Dim dbFileName As String = "C:\dgvdat\dgvtest5.accdb"
+
         Using cn As New System.Data.OleDb.OleDbConnection
             Using cm As New System.Data.OleDb.OleDbCommand
                 Using da As New System.Data.OleDb.OleDbDataAdapter
                     Dim ds As New DataSet
-                    'EXE と同じフォルダーにデータも入れておく
-                    Dim dbFileName As String = "C:\dgvdat\dgvtest5.accdb"
+
+                    'OpenFileDialogクラスのインスタンスを作成
+                    Dim ofd As New OpenFileDialog()
+
+                    'はじめのファイル名を指定する
+                    ofd.FileName = dbFileName
+                    'はじめに表示されるフォルダを指定する
+                    ofd.InitialDirectory = FolderPath
+                    '[ファイルの種類]に表示される選択肢を指定する
+                    '指定しないとすべてのファイルが表示される
+                    ofd.Filter = "accdbファイル(*.accdb)|*.accdb"
+                    'タイトルを設定する
+                    ofd.Title = "開くファイルを選択してください"
+                    'ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+                    ofd.RestoreDirectory = True
+
+                    'ダイアログを表示する
+                    If ofd.ShowDialog() = DialogResult.OK Then
+                        'OKボタンがクリックされたとき、選択されたファイル名を表示する
+                        dbFileName = ofd.FileName
+                    Else
+                        MessageBox.Show("ファイル表示をキャンセルしました。")
+                        Exit Sub
+                    End If
+
                     Dim TableName As String = "Table1"   '指定のテーブル名(上記ファイル内に存在する事)
                     '接続文字列については、WEB上で、[接続文字列]をキーに検索して見て下さい。
                     cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;" &
@@ -206,7 +345,6 @@ Public Class Form1
         DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
     End Sub
 
-
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         'DataGridView に表示中のデータを CSV 形式で保存
         Dim saveFileName As String
@@ -217,9 +355,14 @@ Public Class Form1
             InitialFilename:="C:\dgvdat\savecsv",
             FileFilter:="CSVファイル,*.csv")
 
+        '保存先ディレクトリの設定が有効の場合はブックを保存
+        If saveFileName = "False" Then
+            MessageBox.Show("ファイル保存をキャンセルしました。")
+            Exit Sub
+        End If
+
         CsvFileSave(saveFileName)
     End Sub
-
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
         'DataGridView に表示中のデータを TXT 形式で保存
@@ -232,9 +375,14 @@ Public Class Form1
             InitialFilename:="C:\dgvdat\savetxt",
             FileFilter:="txtファイル,*.txt")
 
+        '保存先ディレクトリの設定が有効の場合はブックを保存
+        If saveFileName = "False" Then
+            MessageBox.Show("ファイル保存をキャンセルしました。")
+            Exit Sub
+        End If
+
         CsvFileSave(saveFileName)
     End Sub
-
 
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         'DataGridView に表示中のデータを CSV 形式で保存
@@ -250,12 +398,12 @@ Public Class Form1
 
         saveFileName = objExcel.GetSaveAsFilename(
             InitialFilename:="C:\dgvdat\saveexcel",
-            FileFilter:="Excel2003以前,*.xls,Excelファイル,*.xlsx",
-            FilterIndex:=2)
+            FileFilter:="Excelファイル,*.xlsx",
+            FilterIndex:=1)
 
         '保存先ディレクトリの設定が有効の場合はブックを保存
         If saveFileName = "False" Then
-            'objWorkBook.SaveAs(Filename:=saveFileName)
+            MessageBox.Show("ファイル保存をキャンセルしました。")
             Exit Sub
         End If
 
