@@ -4,9 +4,15 @@ Public Class Form1
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         'DataGridView を初期値に設定
         DGVClear(DataGridView1)    '初期化のSub プロシージャを Call
+        Button2.Enabled = True
+        Button3.Enabled = True
+        Button4.Enabled = True
+        Button5.Enabled = True
+        Button6.Enabled = True
 
-        '※ 通常は必要ありませんが、Tips の動作確認のために表示状態を元に戻す場合や
-        '　 データファイルを読み込み直す場合等に必要なので
+        Button10.Enabled = True
+        Button12.Enabled = True
+
     End Sub
 
     Private Sub DGVClear(ByVal dgv As DataGridView)
@@ -33,7 +39,7 @@ Public Class Form1
                 .Refresh()                                  '再描画
             End If
         End With
-        '※ 上記設定は、必要により、追加・削除してください。
+        TextBox1.Text = ""
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -65,6 +71,7 @@ Public Class Form1
             If ofd.ShowDialog() = DialogResult.OK Then
                 'OKボタンがクリックされたとき、選択されたファイル名を表示する
                 dbFileName = ofd.SafeFileName
+                TextBox1.Text = ofd.FileName
             Else
                 MessageBox.Show("ファイル表示をキャンセルしました。")
                 Exit Sub
@@ -85,6 +92,15 @@ Public Class Form1
 
         'ヘッダーとすべてのセルの内容に合わせて、行の高さを自動調整する
         DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+
+        Button3.Enabled = False
+        Button4.Enabled = False
+        Button5.Enabled = False
+        Button6.Enabled = False
+
+        Button10.Enabled = True
+        Button12.Enabled = False
+
     End Sub
 
 
@@ -118,6 +134,7 @@ Public Class Form1
                     If ofd.ShowDialog() = DialogResult.OK Then
                         'OKボタンがクリックされたとき、選択されたファイル名を表示する
                         dbFileName = ofd.FileName
+                        TextBox1.Text = ofd.FileName
                     Else
                         MessageBox.Show("ファイル表示をキャンセルしました。")
                         Exit Sub
@@ -149,6 +166,14 @@ Public Class Form1
 
         'ヘッダーとすべてのセルの内容に合わせて、行の高さを自動調整する
         DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+
+        Button2.Enabled = False
+        Button4.Enabled = False
+        Button5.Enabled = False
+        Button6.Enabled = False
+
+        Button10.Enabled = False
+        Button12.Enabled = False
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
@@ -183,6 +208,7 @@ Public Class Form1
                     If ofd.ShowDialog() = DialogResult.OK Then
                         'OKボタンがクリックされたとき、選択されたファイル名を表示する
                         dbFileName = ofd.FileName
+                        TextBox1.Text = ofd.FileName
                     Else
                         MessageBox.Show("ファイル表示をキャンセルしました。")
                         Exit Sub
@@ -214,6 +240,14 @@ Public Class Form1
 
         'ヘッダーとすべてのセルの内容に合わせて、行の高さを自動調整する
         DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+
+        Button2.Enabled = False
+        Button3.Enabled = False
+        Button5.Enabled = False
+        Button6.Enabled = False
+
+        Button10.Enabled = False
+        Button12.Enabled = True
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
@@ -249,6 +283,7 @@ Public Class Form1
                     If ofd.ShowDialog() = DialogResult.OK Then
                         'OKボタンがクリックされたとき、選択されたファイル名を表示する
                         dbFileName = ofd.FileName
+                        TextBox1.Text = ofd.FileName
                     Else
                         MessageBox.Show("ファイル表示をキャンセルしました。")
                         Exit Sub
@@ -279,6 +314,14 @@ Public Class Form1
 
         'ヘッダーとすべてのセルの内容に合わせて、行の高さを自動調整する
         DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+
+        Button2.Enabled = False
+        Button3.Enabled = False
+        Button4.Enabled = False
+        Button6.Enabled = False
+
+        Button10.Enabled = False
+        Button12.Enabled = False
     End Sub
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         'accdb ファイルを ADO.NET を使って DataGridView に読み込み表示
@@ -313,6 +356,7 @@ Public Class Form1
                     If ofd.ShowDialog() = DialogResult.OK Then
                         'OKボタンがクリックされたとき、選択されたファイル名を表示する
                         dbFileName = ofd.FileName
+                        TextBox1.Text = ofd.FileName
                     Else
                         MessageBox.Show("ファイル表示をキャンセルしました。")
                         Exit Sub
@@ -343,6 +387,14 @@ Public Class Form1
 
         'ヘッダーとすべてのセルの内容に合わせて、行の高さを自動調整する
         DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+
+        Button2.Enabled = False
+        Button3.Enabled = False
+        Button4.Enabled = False
+        Button5.Enabled = False
+
+        Button10.Enabled = False
+        Button12.Enabled = False
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
@@ -362,6 +414,8 @@ Public Class Form1
         End If
 
         CsvFileSave(saveFileName)
+
+        MessageBox.Show("現在表示中のデータを " & saveFileName & " に保存しました。")
     End Sub
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
@@ -382,10 +436,12 @@ Public Class Form1
         End If
 
         CsvFileSave(saveFileName)
+
+        MessageBox.Show("現在表示中のデータを " & saveFileName & " に保存しました。")
     End Sub
 
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
-        'DataGridView に表示中のデータを CSV 形式で保存
+        'DataGridView に表示中のデータを xls 形式で保存
         'XlsFileSave("C:\dgvdat\saveTest1.xls")
 
         ' EXCEL関連オブジェクトの定義
@@ -407,8 +463,22 @@ Public Class Form1
             Exit Sub
         End If
 
+        XlsxFileSave(saveFileName)
+
+        MessageBox.Show("現在表示中のデータを " & saveFileName & " に保存しました。")
+
+    End Sub
+
+    Private Sub XlsxFileSave(ByVal SaveFileName As String)
+
+        ' EXCEL関連オブジェクトの定義
+        Dim objExcel As Excel.Application = New Excel.Application
+        Dim objWorkBook As Excel.Workbook = objExcel.Workbooks.Add
+        Dim objSheet As Excel.Worksheet = Nothing
+
+
         '保存先ディレクトリの設定が有効の場合はブックを保存
-        objWorkBook.SaveAs(Filename:=saveFileName)
+        objWorkBook.SaveAs(Filename:=SaveFileName)
 
         'シートの最大表示列項目数
         Dim columnMaxNum As Integer = DataGridView1.Columns.Count - 1
@@ -464,8 +534,8 @@ Public Class Form1
         objWorkBook = Nothing
         objExcel = Nothing
 
-        MessageBox.Show("現在表示中のデータを " & saveFileName & " に保存しました。")
     End Sub
+
 
     Private Sub CsvFileSave(ByVal SaveFileName As String)
         'DataGridView に表示中のデータを CSV 形式で保存用のプロシージャ
@@ -513,8 +583,31 @@ Public Class Form1
                 Next i
             End With
         End Using
-        MessageBox.Show("現在表示中のデータを " & dbFileName & " に保存しました。")
+
     End Sub
 
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        'DataGridView に表示中のデータを CSV 形式で保存
+        Dim saveFileName As String
+        saveFileName = TextBox1.Text
+
+        CsvFileSave(saveFileName)
+
+        MessageBox.Show("上書き保存しました。")
+    End Sub
+
+    'Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+
+    'End Sub
+
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+        'DataGridView に表示中のデータを CSV 形式で保存
+        Dim saveFileName As String
+        saveFileName = TextBox1.Text
+
+        XlsxFileSave(saveFileName)
+
+        MessageBox.Show("上書き保存しました。")
+    End Sub
 
 End Class
