@@ -34,8 +34,8 @@ Partial Class Form1
         Me.Button8 = New System.Windows.Forms.Button()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Button10 = New System.Windows.Forms.Button()
-        Me.Button11 = New System.Windows.Forms.Button()
         Me.Button12 = New System.Windows.Forms.Button()
+        Me.Button13 = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -120,7 +120,7 @@ Partial Class Form1
         Me.Button9.Name = "Button9"
         Me.Button9.Size = New System.Drawing.Size(146, 35)
         Me.Button9.TabIndex = 10
-        Me.Button9.Text = "Excelファイル出力"
+        Me.Button9.Text = "xlsxファイル出力"
         Me.Button9.UseVisualStyleBackColor = True
         '
         'Button8
@@ -148,18 +148,6 @@ Partial Class Form1
         Me.Button10.Text = "csv上書き保存"
         Me.Button10.UseVisualStyleBackColor = True
         '
-        'Button11
-        '
-        Me.Button11.Enabled = False
-        Me.Button11.Font = New System.Drawing.Font("MS UI Gothic", 7.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Button11.Location = New System.Drawing.Point(930, 109)
-        Me.Button11.Name = "Button11"
-        Me.Button11.Size = New System.Drawing.Size(146, 35)
-        Me.Button11.TabIndex = 14
-        Me.Button11.Text = "xls上書き保存" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "※使用不可"
-        Me.Button11.UseVisualStyleBackColor = True
-        Me.Button11.UseWaitCursor = True
-        '
         'Button12
         '
         Me.Button12.Location = New System.Drawing.Point(930, 150)
@@ -169,13 +157,22 @@ Partial Class Form1
         Me.Button12.Text = "xlsx上書き保存"
         Me.Button12.UseVisualStyleBackColor = True
         '
+        'Button13
+        '
+        Me.Button13.Location = New System.Drawing.Point(930, 191)
+        Me.Button13.Name = "Button13"
+        Me.Button13.Size = New System.Drawing.Size(146, 35)
+        Me.Button13.TabIndex = 16
+        Me.Button13.Text = "mdb上書き保存"
+        Me.Button13.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1106, 531)
+        Me.Controls.Add(Me.Button13)
         Me.Controls.Add(Me.Button12)
-        Me.Controls.Add(Me.Button11)
         Me.Controls.Add(Me.Button10)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Button8)
@@ -208,6 +205,6 @@ Partial Class Form1
     Friend WithEvents Button8 As Button
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Button10 As Button
-    Friend WithEvents Button11 As Button
     Friend WithEvents Button12 As Button
+    Friend WithEvents Button13 As Button
 End Class

@@ -259,61 +259,32 @@ Public Class Form1
         'EXE と同じフォルダーにデータも入れておく
         'Dim dbFileName As String = "C:\dgvdat\dgvtest4.mdb"
 
-        Using cn As New System.Data.OleDb.OleDbConnection
-            Using cm As New System.Data.OleDb.OleDbCommand
-                Using da As New System.Data.OleDb.OleDbDataAdapter
-                    Dim ds As New DataSet
+        'OpenFileDialogクラスのインスタンスを作成
+        Dim ofd As New OpenFileDialog()
 
-                    'OpenFileDialogクラスのインスタンスを作成
-                    Dim ofd As New OpenFileDialog()
+        'はじめのファイル名を指定する
+        ofd.FileName = dbFileName
+        'はじめに表示されるフォルダを指定する
+        ofd.InitialDirectory = FolderPath
+        '[ファイルの種類]に表示される選択肢を指定する
+        '指定しないとすべてのファイルが表示される
+        ofd.Filter = "mdbファイル(*.mdb)|*.mdb"
+        'タイトルを設定する
+        ofd.Title = "開くファイルを選択してください"
+        'ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+        ofd.RestoreDirectory = True
 
-                    'はじめのファイル名を指定する
-                    ofd.FileName = dbFileName
-                    'はじめに表示されるフォルダを指定する
-                    ofd.InitialDirectory = FolderPath
-                    '[ファイルの種類]に表示される選択肢を指定する
-                    '指定しないとすべてのファイルが表示される
-                    ofd.Filter = "mdbファイル(*.mdb)|*.mdb"
-                    'タイトルを設定する
-                    ofd.Title = "開くファイルを選択してください"
-                    'ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
-                    ofd.RestoreDirectory = True
+        'ダイアログを表示する
+        If ofd.ShowDialog() = DialogResult.OK Then
+            'OKボタンがクリックされたとき、選択されたファイル名を表示する
+            dbFileName = ofd.FileName
+            TextBox1.Text = ofd.FileName
+        Else
+            MessageBox.Show("ファイル表示をキャンセルしました。")
+            Exit Sub
+        End If
 
-                    'ダイアログを表示する
-                    If ofd.ShowDialog() = DialogResult.OK Then
-                        'OKボタンがクリックされたとき、選択されたファイル名を表示する
-                        dbFileName = ofd.FileName
-                        TextBox1.Text = ofd.FileName
-                    Else
-                        MessageBox.Show("ファイル表示をキャンセルしました。")
-                        Exit Sub
-                    End If
-
-                    Dim TableName As String = "Table1"   '指定のテーブル名(上記ファイル内に存在する事)
-                    '接続文字列については、WEB上で、[接続文字列]をキーに検索して見て下さい。
-                    cn.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" &
-                    "Data Source=" & dbFileName & ";"  'パスワード等があれば続けて記入
-                    'コネクションの設定
-                    cm.Connection = cn
-                    'データソースで実行するSQL文の設定
-                    cm.CommandText = "SELECT * from " & TableName
-                    'データソース内のレコードを選択するためのSQLコマンドの設定
-                    da.SelectCommand = cm
-                    'データを取得する
-                    da.Fill(ds, TableName)
-                    'データグリッドに表示するデータソースを設定
-                    DataGridView1.DataSource = ds
-                    'グリッドを表示するための、DataSource 内のリストを設定
-                    DataGridView1.DataMember = TableName
-                    'データソースへの接続を閉る
-                End Using
-            End Using
-        End Using
-        'ヘッダーとすべてのセルの内容に合わせて、列の幅を自動調整する
-        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-
-        'ヘッダーとすべてのセルの内容に合わせて、行の高さを自動調整する
-        DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+        MdbFileLoad(dbFileName)
 
         Button2.Enabled = False
         Button3.Enabled = False
@@ -332,61 +303,32 @@ Public Class Form1
         'EXE と同じフォルダーにデータも入れておく
         'Dim dbFileName As String = "C:\dgvdat\dgvtest5.accdb"
 
-        Using cn As New System.Data.OleDb.OleDbConnection
-            Using cm As New System.Data.OleDb.OleDbCommand
-                Using da As New System.Data.OleDb.OleDbDataAdapter
-                    Dim ds As New DataSet
+        'OpenFileDialogクラスのインスタンスを作成
+        Dim ofd As New OpenFileDialog()
 
-                    'OpenFileDialogクラスのインスタンスを作成
-                    Dim ofd As New OpenFileDialog()
+        'はじめのファイル名を指定する
+        ofd.FileName = dbFileName
+        'はじめに表示されるフォルダを指定する
+        ofd.InitialDirectory = FolderPath
+        '[ファイルの種類]に表示される選択肢を指定する
+        '指定しないとすべてのファイルが表示される
+        ofd.Filter = "accdbファイル(*.accdb)|*.accdb"
+        'タイトルを設定する
+        ofd.Title = "開くファイルを選択してください"
+        'ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+        ofd.RestoreDirectory = True
 
-                    'はじめのファイル名を指定する
-                    ofd.FileName = dbFileName
-                    'はじめに表示されるフォルダを指定する
-                    ofd.InitialDirectory = FolderPath
-                    '[ファイルの種類]に表示される選択肢を指定する
-                    '指定しないとすべてのファイルが表示される
-                    ofd.Filter = "accdbファイル(*.accdb)|*.accdb"
-                    'タイトルを設定する
-                    ofd.Title = "開くファイルを選択してください"
-                    'ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
-                    ofd.RestoreDirectory = True
+        'ダイアログを表示する
+        If ofd.ShowDialog() = DialogResult.OK Then
+            'OKボタンがクリックされたとき、選択されたファイル名を表示する
+            dbFileName = ofd.FileName
+            TextBox1.Text = ofd.FileName
+        Else
+            MessageBox.Show("ファイル表示をキャンセルしました。")
+            Exit Sub
+        End If
 
-                    'ダイアログを表示する
-                    If ofd.ShowDialog() = DialogResult.OK Then
-                        'OKボタンがクリックされたとき、選択されたファイル名を表示する
-                        dbFileName = ofd.FileName
-                        TextBox1.Text = ofd.FileName
-                    Else
-                        MessageBox.Show("ファイル表示をキャンセルしました。")
-                        Exit Sub
-                    End If
-
-                    Dim TableName As String = "Table1"   '指定のテーブル名(上記ファイル内に存在する事)
-                    '接続文字列については、WEB上で、[接続文字列]をキーに検索して見て下さい。
-                    cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;" &
-                                          "Data Source=" & dbFileName & ";"     'パスワード等があれば続けて記入
-                    'コネクションの設定
-                    cm.Connection = cn
-                    'データソースで実行するSQL文の設定
-                    cm.CommandText = "SELECT * from " & TableName
-                    'データソース内のレコードを選択するためのSQLコマンドの設定
-                    da.SelectCommand = cm
-                    'データを取得する
-                    da.Fill(ds, TableName)
-                    'データグリッドに表示するデータソースを設定
-                    DataGridView1.DataSource = ds
-                    'グリッドを表示するための、DataSource 内のリストを設定
-                    DataGridView1.DataMember = TableName
-                    'データソースへの接続を閉る
-                End Using
-            End Using
-        End Using
-        'ヘッダーとすべてのセルの内容に合わせて、列の幅を自動調整する
-        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-
-        'ヘッダーとすべてのセルの内容に合わせて、行の高さを自動調整する
-        DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+        AccdbFileLoad(dbFileName)
 
         Button2.Enabled = False
         Button3.Enabled = False
@@ -453,9 +395,9 @@ Public Class Form1
         Dim saveFileName As String
 
         saveFileName = objExcel.GetSaveAsFilename(
-            InitialFilename:="C:\dgvdat\saveexcel",
-            FileFilter:="Excelファイル,*.xlsx",
-            FilterIndex:=1)
+            InitialFilename:="C:\dgvdat\saveexcel")
+        'FileFilter:="Excelファイル,*.xlsx",
+        'FilterIndex:=1)
 
         '保存先ディレクトリの設定が有効の場合はブックを保存
         If saveFileName = "False" Then
@@ -469,73 +411,25 @@ Public Class Form1
 
     End Sub
 
-    Private Sub XlsxFileSave(ByVal SaveFileName As String)
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        'DataGridView に表示中のデータを CSV 形式で保存
+        Dim saveFileName As String
+        saveFileName = TextBox1.Text
 
-        ' EXCEL関連オブジェクトの定義
-        Dim objExcel As Excel.Application = New Excel.Application
-        Dim objWorkBook As Excel.Workbook = objExcel.Workbooks.Add
-        Dim objSheet As Excel.Worksheet = Nothing
+        CsvFileSave(saveFileName)
 
-
-        '保存先ディレクトリの設定が有効の場合はブックを保存
-        objWorkBook.SaveAs(Filename:=SaveFileName)
-
-        'シートの最大表示列項目数
-        Dim columnMaxNum As Integer = DataGridView1.Columns.Count - 1
-        'シートの最大表示行項目数
-        Dim rowMaxNum As Integer = DataGridView1.Rows.Count - 1
-
-        '項目名格納用リストを宣言
-        Dim columnList As New List(Of String)
-        '項目名を取得
-        For i As Integer = 0 To (columnMaxNum)
-            columnList.Add(DataGridView1.Columns(i).HeaderCell.Value)
-        Next
-
-        'セルのデータ取得用二次元配列を宣言
-        Dim v As String(,) = New String(rowMaxNum, columnMaxNum) {}
-
-        For row As Integer = 0 To rowMaxNum
-            For col As Integer = 0 To columnMaxNum
-                If DataGridView1.Rows(row).Cells(col).Value Is Nothing = False Then
-                    ' セルに値が入っている場合、二次元配列に格納
-                    v(row, col) = DataGridView1.Rows(row).Cells(col).Value.ToString()
-                End If
-            Next
-        Next
-
-        ' EXCELに項目名を転送
-        For i As Integer = 1 To DataGridView1.Columns.Count
-            ' シートの一行目に項目を挿入
-            objWorkBook.Sheets(1).Cells(1, i) = columnList(i - 1)
-
-            ' 罫線を設定
-            objWorkBook.Sheets(1).Cells(1, i).Borders.LineStyle = True
-            ' 項目の表示行に背景色を設定
-            objWorkBook.Sheets(1).Cells(1, i).Interior.Color = RGB(140, 140, 140)
-            ' 文字のフォントを設定
-            objWorkBook.Sheets(1).Cells(1, i).Font.Color = RGB(255, 255, 255)
-            objWorkBook.Sheets(1).Cells(1, i).Font.Bold = True
-        Next
-
-        ' EXCELにデータを範囲指定で転送
-        Dim data As String = "A2:" & Chr(Asc("A") + columnMaxNum) & DataGridView1.Rows.Count + 1
-        objWorkBook.Sheets(1).Range(data) = v
-
-        ' データの表示範囲に罫線を設定
-        objWorkBook.Sheets(1).Range(data).Borders.LineStyle = True
-
-        ' エクセル表示
-        objExcel.Visible = True
-
-        ' EXCEL解放
-        Marshal.ReleaseComObject(objWorkBook)
-        Marshal.ReleaseComObject(objExcel)
-        objWorkBook = Nothing
-        objExcel = Nothing
-
+        MessageBox.Show("上書き保存しました。")
     End Sub
 
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+        'DataGridView に表示中のデータを Xlsx 形式で保存
+        Dim saveFileName As String
+        saveFileName = TextBox1.Text
+
+        XlsxFileSave(saveFileName)
+
+        MessageBox.Show("上書き保存しました。")
+    End Sub
 
     Private Sub CsvFileSave(ByVal SaveFileName As String)
         'DataGridView に表示中のデータを CSV 形式で保存用のプロシージャ
@@ -586,28 +480,138 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
-        'DataGridView に表示中のデータを CSV 形式で保存
-        Dim saveFileName As String
-        saveFileName = TextBox1.Text
+    Private Sub XlsxFileSave(ByVal SaveFileName As String)
 
-        CsvFileSave(saveFileName)
+        ' EXCEL関連オブジェクトの定義
+        Dim objExcel As Excel.Application = New Excel.Application
+        Dim objWorkBook As Excel.Workbook = objExcel.Workbooks.Add
+        Dim objSheet As Excel.Worksheet = Nothing
 
-        MessageBox.Show("上書き保存しました。")
+
+        '保存先ディレクトリの設定が有効の場合はブックを保存
+        objWorkBook.SaveAs(Filename:=SaveFileName)
+
+        'シートの最大表示列項目数
+        Dim columnMaxNum As Integer = DataGridView1.Columns.Count - 1
+        'シートの最大表示行項目数
+        Dim rowMaxNum As Integer = DataGridView1.Rows.Count - 1
+
+        '項目名格納用リストを宣言
+        Dim columnList As New List(Of String)
+        '項目名を取得
+        For i As Integer = 0 To (columnMaxNum)
+            columnList.Add(DataGridView1.Columns(i).HeaderCell.Value)
+        Next
+
+        'セルのデータ取得用二次元配列を宣言
+        Dim v As String(,) = New String(rowMaxNum, columnMaxNum) {}
+
+        For row As Integer = 0 To rowMaxNum
+            For col As Integer = 0 To columnMaxNum
+                If DataGridView1.Rows(row).Cells(col).Value Is Nothing = False Then
+                    ' セルに値が入っている場合、二次元配列に格納
+                    v(row, col) = DataGridView1.Rows(row).Cells(col).Value.ToString()
+                End If
+            Next
+        Next
+
+        ' EXCELに項目名を転送
+        For i As Integer = 1 To DataGridView1.Columns.Count
+            ' シートの一行目に項目を挿入
+            objWorkBook.Sheets(1).Cells(1, i) = columnList(i - 1)
+
+            ' 罫線を設定
+            objWorkBook.Sheets(1).Cells(1, i).Borders.LineStyle = True
+            '' 項目の表示行に背景色を設定
+            'objWorkBook.Sheets(1).Cells(1, i).Interior.Color = RGB(140, 140, 140)
+            '' 文字のフォントを設定
+            'objWorkBook.Sheets(1).Cells(1, i).Font.Color = RGB(255, 255, 255)
+            'objWorkBook.Sheets(1).Cells(1, i).Font.Bold = True
+        Next
+
+        ' EXCELにデータを範囲指定で転送
+        Dim data As String = "A2:" & Chr(Asc("A") + columnMaxNum) & DataGridView1.Rows.Count + 1
+        objWorkBook.Sheets(1).Range(data) = v
+
+        ' データの表示範囲に罫線を設定
+        objWorkBook.Sheets(1).Range(data).Borders.LineStyle = True
+
+        ' エクセル表示
+        objExcel.Visible = True
+
+        ' EXCEL解放
+        Marshal.ReleaseComObject(objWorkBook)
+        Marshal.ReleaseComObject(objExcel)
+        objWorkBook = Nothing
+        objExcel = Nothing
+
     End Sub
 
-    'Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+    Private Sub MdbFileLoad(ByVal dbFileName As String)
+        Using cn As New System.Data.OleDb.OleDbConnection
+            Using cm As New System.Data.OleDb.OleDbCommand
+                Using da As New System.Data.OleDb.OleDbDataAdapter
+                    Dim ds As New DataSet
 
-    'End Sub
+                    Dim TableName As String = "Table1"   '指定のテーブル名(上記ファイル内に存在する事)
+                    '接続文字列については、WEB上で、[接続文字列]をキーに検索して見て下さい。
+                    cn.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" &
+                    "Data Source=" & dbFileName & ";"  'パスワード等があれば続けて記入
+                    'コネクションの設定
+                    cm.Connection = cn
+                    'データソースで実行するSQL文の設定
+                    cm.CommandText = "SELECT * from " & TableName
+                    'データソース内のレコードを選択するためのSQLコマンドの設定
+                    da.SelectCommand = cm
+                    'データを取得する
+                    da.Fill(ds, TableName)
+                    'データグリッドに表示するデータソースを設定
+                    DataGridView1.DataSource = ds
+                    'グリッドを表示するための、DataSource 内のリストを設定
+                    DataGridView1.DataMember = TableName
+                    'データソースへの接続を閉る
+                End Using
+            End Using
+        End Using
+        'ヘッダーとすべてのセルの内容に合わせて、列の幅を自動調整する
+        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
-    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
-        'DataGridView に表示中のデータを CSV 形式で保存
-        Dim saveFileName As String
-        saveFileName = TextBox1.Text
+        'ヘッダーとすべてのセルの内容に合わせて、行の高さを自動調整する
+        DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+    End Sub
 
-        XlsxFileSave(saveFileName)
 
-        MessageBox.Show("上書き保存しました。")
+    Private Sub AccdbFileLoad(ByVal dbFileName As String)
+        Using cn As New System.Data.OleDb.OleDbConnection
+            Using cm As New System.Data.OleDb.OleDbCommand
+                Using da As New System.Data.OleDb.OleDbDataAdapter
+                    Dim ds As New DataSet
+
+                    Dim TableName As String = "Table1"   '指定のテーブル名(上記ファイル内に存在する事)
+                    '接続文字列については、WEB上で、[接続文字列]をキーに検索して見て下さい。
+                    cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;" &
+                                          "Data Source=" & dbFileName & ";"     'パスワード等があれば続けて記入
+                    'コネクションの設定
+                    cm.Connection = cn
+                    'データソースで実行するSQL文の設定
+                    cm.CommandText = "SELECT * from " & TableName
+                    'データソース内のレコードを選択するためのSQLコマンドの設定
+                    da.SelectCommand = cm
+                    'データを取得する
+                    da.Fill(ds, TableName)
+                    'データグリッドに表示するデータソースを設定
+                    DataGridView1.DataSource = ds
+                    'グリッドを表示するための、DataSource 内のリストを設定
+                    DataGridView1.DataMember = TableName
+                    'データソースへの接続を閉る
+                End Using
+            End Using
+        End Using
+        'ヘッダーとすべてのセルの内容に合わせて、列の幅を自動調整する
+        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+
+        'ヘッダーとすべてのセルの内容に合わせて、行の高さを自動調整する
+        DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
     End Sub
 
 End Class
